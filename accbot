@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Prevent filename expansion (like **/*.* file pattern)
+set -f
+
+# The error variable is used in src/options-parser.sh and src/options-validator.sh
+has_error=false
+
+# Assign colors variables
+source src/colors.sh
+
+# Assign help_message variable
+source src/help.sh
+
+# Parse cli args
+# This could exit with the status 1
+source src/options-parser.sh
+
+# Validate options presence and context relevence
+# This could exit with the status 1
+source src/options-validator.sh
+
+# Zip the directory if input-directory option is used and set filepath default if necessary
+source src/directory-handler.sh
+
+# Do the cUrl call
+# Last operation so the script can be piped like a normal cUrl command
+source src/operation-curl.sh
