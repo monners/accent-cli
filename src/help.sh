@@ -1,6 +1,6 @@
 #!/bin/bash
 
-help_message="Usage: accbot [OPERATION] [OPTION]...
+help_message="Usage: accent [OPERATION] [OPTION]...
 Sync, merge and export with the Accent API
 
   --api-url            URL of the Accent API endpoint
@@ -20,13 +20,13 @@ Sync, merge and export with the Accent API
   --help               show this message
 
 Examples:
-  accbot sync --input-file=locale.json --language=fr
-  accbot merge --input-file=activerecord.en.yml --language=en
-  accbot export --format=json --language=en --output-file=new-locale.json
+  accent sync --input-file=locale.json --language=fr
+  accent merge --input-file=activerecord.en.yml --language=en
+  accent export --format=json --language=en --output-file=new-locale.json
 
-This package only execute cUrl command. Here is a mapping of an accbot command vs a cUrl command:
+This package only execute cUrl command. Here is a mapping of an accent cli command vs a cUrl command:
 
-  accbot sync
+  accent sync
     --api-url=http://accent-url.net
     --api-key=test123
     --input-file=locale.json
