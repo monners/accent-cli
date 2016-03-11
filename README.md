@@ -26,7 +26,7 @@ The package is just a bash script so no compile, complex runtime, versions... Ju
 
 ## License
 
-`accent-cli` is © 2016 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  See the [`LICENSE.md`](https://github.com/mirego/aigu/blob/master/LICENSE.md) file.
+`accent-cli` is © 2016 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  See the [`LICENSE.md`](https://github.com/mirego/accent-cli/blob/master/LICENSE.md) file.
 
 ## About Mirego
 
