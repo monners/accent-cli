@@ -92,6 +92,7 @@ while [ $# -gt 0 ]; do
     --language=*) file_language="${1#*=}" ;;
     --merge-type=*) merge_type="${1#*=}" ;;
     --format=*) file_format="${1#*=}" ;;
+    --order-by=*) file_key_order="${1#*=}" ;;
     --output-file=*) output_file="${1#*=}" ;;
     --help)
       printf "$help_message"
@@ -194,7 +195,7 @@ fi
 #############################
 case $operation in
   export)
-    curl "$API_URL/$url?format=$file_format&language=$file_language" \
+    curl "$API_URL/$url?format=$file_format&language=$file_language&order_by=$file_key_order" \
       -s \
       -H 'Authorization: Bearer '"$API_KEY"'' \
       > "$output_file"
