@@ -1,5 +1,5 @@
 # Variables
-ACCENT_CLI_VERSION=0.4.1
+ACCENT_CLI_VERSION=0.4.2
 
 # Constants
 BINDIR=./bin
