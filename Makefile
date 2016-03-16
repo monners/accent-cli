@@ -14,20 +14,20 @@ release:
 	@git push --tags
 
 prepare:
-	@mkdir -p $(BINDIR)
-	@rm -fr $(EXECUTABLE)
-	@touch $(EXECUTABLE)
-	@chmod +x $(EXECUTABLE)
+	@/bin/mkdir -p $(BINDIR)
+	@/bin/rm -fr $(EXECUTABLE)
+	@/usr/bin/touch $(EXECUTABLE)
+	@/bin/chmod +x $(EXECUTABLE)
 
 compile:
-	@cat $(SRCDIR)/main.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/colors.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/help.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/options-parser.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/options-validator.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/directory-handler.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
-	@cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/main.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/colors.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/help.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/options-parser.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/options-validator.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/directory-handler.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
+	@/bin/cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
 
 tag:
-	@sed -i '' 's/{ACCENT_CLI_VERSION}/$(ACCENT_CLI_VERSION)/' $(EXECUTABLE)
+	@/usr/bin/sed -i '' 's/{ACCENT_CLI_VERSION}/$(ACCENT_CLI_VERSION)/' $(EXECUTABLE)
