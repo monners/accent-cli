@@ -2,9 +2,8 @@
 ACCENT_CLI_VERSION=0.4.3
 
 # Constants
-BINDIR=./bin
 SRCDIR=./src
-EXECUTABLE=$(BINDIR)/accent
+EXECUTABLE=accent
 
 # Pseudo-targets
 .NOTPARALLEL:
@@ -19,7 +18,6 @@ release:
 	@git push --tags
 
 prepare:
-	@/bin/mkdir -p $(BINDIR)
 	@/usr/bin/touch $(EXECUTABLE)
 	@/bin/chmod +x $(EXECUTABLE)
 
