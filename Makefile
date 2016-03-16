@@ -6,7 +6,7 @@ BINDIR=./bin
 SRCDIR=./src
 EXECUTABLE=$(BINDIR)/accent
 
-build: prepare compile tag
+build: compile tag
 	@echo "accent-$(ACCENT_CLI_VERSION) has been built as $(EXECUTABLE)"
 
 release:
@@ -19,7 +19,7 @@ prepare:
 	@/usr/bin/touch $(EXECUTABLE)
 	@/bin/chmod +x $(EXECUTABLE)
 
-compile:
+compile: prepare
 	@/bin/cat $(SRCDIR)/main.sh >> $(EXECUTABLE)
 	@/bin/cat $(SRCDIR)/colors.sh >> $(EXECUTABLE)
 	@/bin/cat $(SRCDIR)/help.sh >> $(EXECUTABLE)
@@ -29,5 +29,5 @@ compile:
 	@/bin/cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
 	@/bin/cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
 
-tag:
+tag: prepare
 	@/usr/bin/sed -i '' 's/{ACCENT_CLI_VERSION}/$(ACCENT_CLI_VERSION)/' $(EXECUTABLE)
