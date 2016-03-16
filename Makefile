@@ -9,6 +9,10 @@ EXECUTABLE=$(BINDIR)/accent
 build: prepare compile tag
 	@echo "accent-$(ACCENT_CLI_VERSION) has been built as $(EXECUTABLE)"
 
+release:
+	@git tag $(ACCENT_CLI_VERSION)
+	@git push --tags
+
 prepare:
 	@mkdir -p $(BINDIR)
 	@rm -fr $(EXECUTABLE)
