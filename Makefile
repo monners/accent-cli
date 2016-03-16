@@ -29,4 +29,3 @@ compile:
 	@/bin/cat $(SRCDIR)/options-validator.sh >> $(EXECUTABLE)
 	@/bin/cat $(SRCDIR)/directory-handler.sh >> $(EXECUTABLE)
 	@/bin/cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
-	@/bin/cat $(SRCDIR)/operation-curl.sh >> $(EXECUTABLE)
