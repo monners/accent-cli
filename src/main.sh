@@ -1,3 +1,5 @@
+#/usr/bin/env bash
+
 # Prevent filename expansion (like **/*.* file pattern)
 set -f
 
