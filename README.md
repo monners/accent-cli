@@ -4,16 +4,16 @@ Sync, merge and export with the Accent V2 API. Just a fancy cUrl wrapper.
 
 ## Install
 
-```
+```bash
 $ brew update
-$ brew tap mirego/accent-cli
-$ brew install accent-cli
+$ brew tap mirego/formulae
+$ brew install accent
 ```
 
 ## Usage Example
 
-```
-  accent sync \
+```bash
+$ accent sync \
     --api-url=http://accent2.mirego.com \
     --api-key=test123 \
     --input-file=locale.json \
@@ -22,7 +22,10 @@ $ brew install accent-cli
 
 ## Development
 
-The package is just a bash script so no compile, complex runtime, versions... Just clone the repo and have fun!
+```bash
+$ make build
+$ ./bin/accent --help
+```
 
 ## License
 
