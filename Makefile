@@ -1,5 +1,5 @@
 # Variables
-ACCENT_CLI_VERSION=0.4.7
+ACCENT_CLI_VERSION=0.5.0
 
 # Constants
 SRCDIR=./src
