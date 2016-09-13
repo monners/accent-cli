@@ -9,7 +9,7 @@ case $operation in
       -s \
       -F document_format=$document_format \
       -F document_path=$document_path \
-      -F file=@$input_file \
+      -F file="@$input_file" \
       -F language=$file_language \
       -H 'Authorization: Bearer '"$API_KEY"''
     ;;
@@ -18,7 +18,7 @@ case $operation in
       -s \
       -F document_format=$document_format \
       -F document_path=$document_path \
-      -F file=@$input_file \
+      -F file="@$input_file" \
       -F language=$file_language \
       -F merge_type=$merge_type \
       -H 'Authorization: Bearer '"$API_KEY"''
