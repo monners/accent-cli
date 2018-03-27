@@ -1,16 +1,16 @@
 // Vendor
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
 
 // Types
-import {ApiConfig} from '../types/api-config';
-import {Project} from '../types/project';
+import {ApiConfig} from '../types/api-config'
+import {Project} from '../types/project'
 
 export default class ProjectFetcher {
   static async fetch(api: ApiConfig): Promise<Project> {
-    const response = await this.graphql(api);
-    const data = await response.json();
+    const response = await this.graphql(api)
+    const data = await response.json()
 
-    return data.data.viewer.project;
+    return data.data.viewer.project
   }
 
   private static graphql(api: ApiConfig) {
@@ -27,15 +27,15 @@ export default class ProjectFetcher {
           }
         }
       }
-    }`;
+    }`
 
     return fetch(`${api.url}/graphql`, {
       method: 'POST',
       body: JSON.stringify({query}),
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${api.key}`
+        authorization: `Bearer ${api.key}`
       }
-    });
+    })
   }
 }

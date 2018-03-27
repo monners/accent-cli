@@ -1,4 +1,4 @@
 export interface ApiConfig {
-  url: string;
-  key: string;
+  url: string
+  key: string
 }

@@ -1,14 +1,14 @@
 export interface Language {
-  name: string;
+  name: string
 }
 
 export interface Revision {
-  id: string;
-  language: Language;
+  id: string
+  language: Language
 }
 
 export interface Project {
-  id: string;
-  name: string;
-  revisions: Revision[];
+  id: string
+  name: string
+  revisions: Revision[]
 }

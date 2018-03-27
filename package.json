@@ -57,7 +57,7 @@
     "build": "rm -rf lib && tsc",
     "clean": "rm -f .oclif.manifest.json",
     "lint": "tsc -p test --noEmit && tslint -p test -t stylish",
-    "prettier": "prettier --single-quote --no-bracket-spacing --write './src/**/*.{js,json,ts,tsx,gql}'",
+    "prettier": "prettier --single-quote --no-bracket-spacing --no-semi --write './src/**/*.{js,json,ts,tsx,gql}'",
     "test": "mocha --forbid-only \"test/**/*.test.ts\""
   },
   "types": "lib/index.d.ts"

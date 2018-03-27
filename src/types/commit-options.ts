@@ -1,3 +1,3 @@
 export interface CommitOptions {
-  peek: boolean;
+  peek: boolean
 }
