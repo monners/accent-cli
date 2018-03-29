@@ -13,9 +13,12 @@
     "@types/fs-extra": "5.0.1",
     "@types/glob": "5.0.35",
     "@types/node-fetch": "1.6.7",
+    "chalk": "2.3.2",
+    "cli-ux": "3.3.26",
     "form-data": "2.3.2",
     "glob": "7.1.2",
-    "node-fetch": "2.1.2"
+    "node-fetch": "2.1.2",
+    "tslint-config-prettier": "1.10.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "1.4.2",
@@ -56,7 +59,8 @@
   "scripts": {
     "build": "rm -rf lib && tsc",
     "clean": "rm -f .oclif.manifest.json",
-    "lint": "tsc -p test --noEmit && tslint -p test -t stylish",
+    "lint": "tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
+    "fix": "tslint --project tsconfig.json --fix 'src/**/*.{ts,tsx}'",
     "prettier": "prettier --single-quote --no-bracket-spacing --no-semi --write './src/**/*.{js,json,ts,tsx,gql}'",
     "test": "mocha --forbid-only \"test/**/*.test.ts\""
   },

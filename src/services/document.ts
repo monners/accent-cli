@@ -1,55 +1,77 @@
 // Vendor
 import * as FormData from 'form-data'
 import * as fs from 'fs-extra'
+import fetch, {Response} from 'node-fetch'
 import * as path from 'path'
-import fetch from 'node-fetch'
 
 // Services
-import Config from './config'
+import Tree from './tree'
 
 // Types
-import {Response} from 'node-fetch'
-import {DocumentConfig} from '../types/document-config'
 import {ApiConfig} from '../types/api-config'
-import {CommitOptions} from '../types/commit-options'
+import {DocumentConfig} from '../types/document-config'
+import {OperationResponse} from '../types/operation-response'
 
-enum OperationName {
-  Sync = 'sync'
+const enum OperationName {
+  Sync = 'sync',
+  AddTranslation = 'addTranslations'
 }
 
 export default class Document {
-  private document: DocumentConfig
-  private api: ApiConfig
+  public readonly paths: string[]
+  public readonly config: DocumentConfig
+  private readonly api: ApiConfig
 
   constructor(documentConfig: DocumentConfig, apiConfig: ApiConfig) {
-    this.document = documentConfig
+    this.config = documentConfig
     this.api = apiConfig
+    this.paths = new Tree(this.config).list()
   }
 
-  async sync(file: string, options: CommitOptions) {
+  public async sync(file: string, options: any) {
     const formData = new FormData()
     formData.append('file', fs.createReadStream(file))
     formData.append('document_path', this.parseDocumentName(file))
-    formData.append('document_format', this.document.format)
-    formData.append('language', this.document.language)
+    formData.append('document_format', this.config.format)
+    formData.append('language', this.config.language)
 
     let url = `${this.api.url}/sync`
-    if (options.peek) url = `${url}/peek`
+    if (!options.write) url = `${url}/peek`
 
     const response = await fetch(url, {
-      method: 'POST',
       body: formData,
-      headers: this.authorizationHeader()
+      headers: this.authorizationHeader(),
+      method: 'POST'
     })
 
     return this.handleResponse(response, options, OperationName.Sync)
   }
 
-  async export(file: string) {
+  public async addTranslations(file: string, options: any) {
+    const formData = new FormData()
+    formData.append('file', fs.createReadStream(file))
+    formData.append('document_path', this.parseDocumentName(file))
+    formData.append('document_format', this.config.format)
+    formData.append('language', this.config.language)
+    formData.append('merge_type', options.mergeType)
+
+    let url = `${this.api.url}/add-translations`
+    if (!options.write) url = `${url}/peek`
+
+    const response = await fetch(url, {
+      body: formData,
+      headers: this.authorizationHeader(),
+      method: 'POST'
+    })
+
+    return this.handleResponse(response, options, OperationName.AddTranslation)
+  }
+
+  public async export(file: string) {
     const query = [
       ['document_path', this.parseDocumentName(file)],
-      ['document_format', this.document.format],
-      ['language', this.document.language]
+      ['document_format', this.config.format],
+      ['language', this.config.language]
     ]
       .map(([name, value]) => `${name}=${value}`)
       .join('&')
@@ -59,7 +81,7 @@ export default class Document {
       headers: this.authorizationHeader()
     })
 
-    this.writeResponseToFile(response, file)
+    return this.writeResponseToFile(response, file)
   }
 
   private authorizationHeader() {
@@ -81,17 +103,19 @@ export default class Document {
 
   private async handleResponse(
     response: Response,
-    options: CommitOptions,
+    options: any,
     operationName: OperationName
-  ) {
-    if (options.peek) {
+  ): Promise<OperationResponse> {
+    if (options.write) {
+      if (response.status >= 400) {
+        return {[operationName]: {success: false}, peek: false}
+      }
+
+      return {[operationName]: {success: true}, peek: false}
+    } else {
       const {data} = await response.json()
 
-      return {peek: data}
-    } else {
-      if (response.status >= 400) return {[operationName]: {success: false}}
-
-      return {[operationName]: {success: true}}
+      return {peek: data, [operationName]: {success: true}}
     }
   }
 }

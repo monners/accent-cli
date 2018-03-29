@@ -1,9 +1,10 @@
 // Command
+import {flags} from '@oclif/command'
 import Command from '../base-commit'
 
 // Formatters
+import Formatter from '../services/formatters/project-add-translations'
 import ExportFormatter from '../services/formatters/project-export'
-import Formatter from '../services/formatters/project-sync'
 
 // Services
 import Document from '../services/document'
@@ -14,21 +15,31 @@ import DocumentExportFormatter from '../services/formatters/document-export'
 import {DocumentConfig} from '../types/document-config'
 import {Project} from '../types/project'
 
-export default class Sync extends Command {
-  public static description = 'Sync files in Accent and write them to your local filesystem'
+export default class AddTranslations extends Command {
+  public static description = 'Add translations in Accent and write them to your local filesystem'
 
-  public static examples = [`$ accent sync`, `$ accent sync Localization-admin`]
+  public static examples = [
+    `$ accent add-translations`,
+    `$ accent add-translations Localization-admin`
+  ]
 
   public static args = [...Command.args]
-  public static flags = {...Command.flags}
+  public static flags = {
+    ...Command.flags,
+    mergeType: flags.string({
+      default: 'passive',
+      options: ['smart', 'force', 'passive'],
+      required: false
+    })
+  }
 
   public async run() {
-    const {args, flags} = this.parse(Sync)
+    const {args, flags} = this.parse(AddTranslations)
 
-    // Fetch config to sync, defaults to all config entries in sync config.
-    const documents = this.projectConfig.sync(args.filename)
+    // Fetch config to add translations, defaults to all config entries in addTranslations config.
+    const documents = this.projectConfig.addTranslations(args.filename)
 
-    // From all the documentConfigs, do the sync or peek operations and log the results.
+    // From all the documentConfigs, do the add translations or peek operations and log the results.
     this.logProjectOperation(
       this.project!,
       documents.map((document: Document) => document.config)
@@ -55,13 +66,14 @@ export default class Sync extends Command {
   }
 
   private processDocumentConfig(document: Document) {
-    const {flags} = this.parse(Sync)
+    const {flags} = this.parse(AddTranslations)
     const formatter = new CommitOperationFormatter()
 
     return document.paths.map(async path => {
-      const operations = await document.sync(path, flags)
+      const operations = await document.addTranslations(path, flags)
 
-      if (operations.sync && !operations.peek) formatter.logSync(path)
+      if (operations.addTranslations && !operations.peek)
+        formatter.logAddTranslation(path)
       if (operations.peek) formatter.logPeek(path, operations.peek)
 
       return operations

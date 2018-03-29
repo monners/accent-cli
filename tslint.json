@@ -1,3 +1,21 @@
 {
-  "extends": "@oclif/tslint"
+  "extends": ["@oclif/tslint", "tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "no-implicit-dependencies": false,
+    "no-submodule-imports": false,
+    "no-console": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ],
+    "no-empty-interface": false,
+    "interface-name": false,
+    "no-shadowed-variable": false,
+    "no-unused-variable": [true, {"ignore-pattern": "^_"}],
+    "curly": [true, "ignore-same-line"],
+    "no-empty": false
+  }
 }
