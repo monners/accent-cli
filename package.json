@@ -1,5 +1,5 @@
 {
-  "name": "accent",
+  "name": "accent-cli",
   "version": "0.1.0",
   "author": "Simon Prévost",
   "bin": {
