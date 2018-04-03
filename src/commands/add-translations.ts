@@ -72,8 +72,10 @@ export default class AddTranslations extends Command {
     return document.paths.map(async path => {
       const operations = await document.addTranslations(path, flags)
 
-      if (operations.addTranslations && !operations.peek)
+      if (operations.addTranslations && !operations.peek) {
         formatter.logAddTranslation(path)
+      }
+
       if (operations.peek) formatter.logPeek(path, operations.peek)
 
       return operations
