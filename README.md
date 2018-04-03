@@ -11,7 +11,7 @@ Accent CLI
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g accent
+$ npm install -g accent-cli
 $ accent COMMAND
 running command...
 $ accent (-v|--version|version)
