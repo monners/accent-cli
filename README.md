@@ -1,19 +1,13 @@
-accent
+Accent CLI
 ======
 
-
-
-[![Version](https://img.shields.io/npm/v/accent.svg)](https://npmjs.org/package/accent)
-[![CircleCI](https://circleci.com/gh/simonprev/accent/tree/master.svg?style=shield)](https://circleci.com/gh/simonprev/accent/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/simonprev/accent?branch=master&svg=true)](https://ci.appveyor.com/project/simonprev/accent/branch/master)
-[![Codecov](https://codecov.io/gh/simonprev/accent/branch/master/graph/badge.svg)](https://codecov.io/gh/simonprev/accent)
-[![Downloads/week](https://img.shields.io/npm/dw/accent.svg)](https://npmjs.org/package/accent)
-[![License](https://img.shields.io/npm/l/accent.svg)](https://github.com/simonprev/accent/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/accent-cli.svg)](https://npmjs.org/package/accent-cli)
 
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
 <!-- usage -->
 ```sh-session
@@ -28,44 +22,97 @@ USAGE
 ...
 ```
 <!-- usagestop -->
+
 # Commands
 <!-- commands -->
-* [accent hello [FILE]](#accent-hello-file)
-* [accent help [COMMAND]](#accent-help-command)
-
-## accent hello [FILE]
+## accent help [FILE]
 
 describe the command here
 
 ```
 USAGE
-  $ accent hello [FILE]
+  $ accent [COMMAND]
 
-OPTIONS
-  -f, --force
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ accent hello
-  hello world from ./src/hello.ts!
+COMMANDS
+  add-translations  Add translations in Accent and write them to your local filesystem
+  help              display help for accent
+  stats             Fetch stats from the API and display it beautifully
+  sync              Sync files in Accent and write them to your local filesystem
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/simonprev/accent/blob/v0.0.0/src/commands/hello.ts)_
+## accent sync [FILENAME]
 
-## accent help [COMMAND]
-
-display help for accent
+Sync files in Accent and write them to your local filesystem
 
 ```
 USAGE
-  $ accent help [COMMAND]
-
-ARGUMENTS
-  COMMAND  command to show help for
+  $ accent sync [FILENAME]
 
 OPTIONS
-  --all  see all commands in CLI
+  --write  Write the file from the export _after_ the operation
+
+EXAMPLES
+  $ accent sync
+  $ accent sync Localization-admin
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.2.1/src/commands/help.ts)_
+## accent add-translations [FILENAME]
+
+Add translations in Accent and write them to your local filesystem
+
+```
+USAGE
+  $ accent add-translations [FILENAME]
+
+OPTIONS
+  --mergeType=smart|force|passive  [default: passive]
+  --write                          Write the file from the export _after_ the operation
+
+EXAMPLES
+  $ accent add-translations
+  $ accent add-translations Localization-admin
+```
+
+## accent stats
+
+Fetch stats from the API and display it beautifully
+
+```
+USAGE
+  $ accent stats
+
+EXAMPLE
+  $ accent stats
+
+OUTPUT
+  === Stats cli v2
+
+  === Last synced
+  2018-03-27T21:30:06.233789Z
+
+  === Master language
+  French
+
+  === Translations (1)
+  English
+
+  === Documents
+  Format: JSON
+  Path: public
+
+  === Strings
+  # Strings: 6
+  ✓ Reviewed: 0
+  × In review: 6
+```
 <!-- commandsstop -->
+
+# License
+
+`accent-cli` is © 2018 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  See the [`LICENSE.md`](https://github.com/mirego/accent-cli/blob/master/LICENSE.md) file.
+
+# About Mirego
+
+[Mirego](http://mirego.com) is a team of passionate people who believe that work is a place where you can innovate and have fun. We’re a team of [talented people](http://life.mirego.com) who imagine and build beautiful Web and mobile applications. We come together to share ideas and [change the world](http://mirego.org).
+
+We also [love open-source software](http://open.mirego.com) and we try to give back to the community as much as we can.
