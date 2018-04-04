@@ -2,6 +2,7 @@
   "name": "accent-cli",
   "version": "0.2.0",
   "author": "Simon Prévost",
+  "description": "Accent CLI",
   "bin": {
     "accent": "./bin/run"
   },
@@ -63,6 +64,7 @@
     "clean": "rm -f .oclif.manifest.json",
     "lint": "tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
     "fix": "tslint --project tsconfig.json --fix 'src/**/*.{ts,tsx}'",
+    "prepublishOnly": "npm run build && oclif-dev manifest",
     "prettier": "prettier --single-quote --no-bracket-spacing --no-semi --write './src/**/*.{js,json,ts,tsx,gql}'",
     "test": "mocha --forbid-only \"test/**/*.test.ts\""
   },
