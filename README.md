@@ -5,7 +5,10 @@ Accent CLI
 
 <!-- toc -->
 * [Usage](#usage)
+* [Configuration](#configuration)
 * [Commands](#commands)
+* [License](#license)
+* [About Mirego](#about-mirego)
 <!-- tocstop -->
 
 # Usage
@@ -15,7 +18,7 @@ $ npm install -g accent-cli
 $ accent COMMAND
 running command...
 $ accent (-v|--version|version)
-accent/0.0.0 darwin-x64 node-v8.5.0
+accent-cli/0.3.0 darwin-x64 node-v8.5.0
 $ accent --help [COMMAND]
 USAGE
   $ accent COMMAND
@@ -23,38 +26,67 @@ USAGE
 ```
 <!-- usagestop -->
 
+# Configuration
+
+accent-cli reads from a `accent.json` file. The file should contain valid JSON representing the configuration of your project.
+
+## Example
+
+```
+{
+  "api": {
+    "url": "http://your.accent.instance",
+    "key": "2nziVSaa8yUJxLkwoZA"
+  },
+  "sync": [
+    {
+      "language": "fr",
+      "format": "json",
+      "path": "localization/fr/*.json",
+      "hooks": {
+        "afterSync": "touch sync-done.txt",
+      }
+    }
+  ],
+  "addTranslations": [
+    {
+      "language": "en",
+      "format": "json",
+      "path": "localization/en/*.json",
+      "hooks": {
+        "afterSync": "touch add-translations-done.txt",
+      }
+    }
+  ]
+}
+```
+
+## Document configuration
+
+Each operation section `sync` and `addTranslations` can contain the following object:
+
+- `language`: The identifier of the document’s language
+- `format`: The format of the document
+- `path`: The path of the document. This can contain glob pattern (See [the node glob library] used as a dependancy (https://github.com/isaacs/node-glob))
+- `hooks`: List of hooks to be run
+
+## Hooks
+
+Here is a list of available hooks. Those are self-explanatory
+
+- `beforeSync`
+- `afterSync`
+- `beforeAddTranslations`
+- `afterAddTranslations`
+- `beforeExport`
+- `afterExport`
+
 # Commands
 <!-- commands -->
-## accent help [FILE]
-
-describe the command here
-
-```
-USAGE
-  $ accent [COMMAND]
-
-COMMANDS
-  add-translations  Add translations in Accent and write them to your local filesystem
-  help              display help for accent
-  stats             Fetch stats from the API and display it beautifully
-  sync              Sync files in Accent and write them to your local filesystem
-```
-
-## accent sync [FILENAME]
-
-Sync files in Accent and write them to your local filesystem
-
-```
-USAGE
-  $ accent sync [FILENAME]
-
-OPTIONS
-  --write  Write the file from the export _after_ the operation
-
-EXAMPLES
-  $ accent sync
-  $ accent sync Localization-admin
-```
+* [accent add-translations [FILENAME]](#accent-add-translations-filename)
+* [accent help [COMMAND]](#accent-help-command)
+* [accent stats](#accent-stats)
+* [accent sync [FILENAME]](#accent-sync-filename)
 
 ## accent add-translations [FILENAME]
 
@@ -73,6 +105,23 @@ EXAMPLES
   $ accent add-translations Localization-admin
 ```
 
+## accent help [COMMAND]
+
+display help for accent
+
+```
+USAGE
+  $ accent help [COMMAND]
+
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.2.2/src/commands/help.ts)_
+
 ## accent stats
 
 Fetch stats from the API and display it beautifully
@@ -83,27 +132,22 @@ USAGE
 
 EXAMPLE
   $ accent stats
+```
 
-OUTPUT
-  === Stats cli v2
+## accent sync [FILENAME]
 
-  === Last synced
-  2018-03-27T21:30:06.233789Z
+Sync files in Accent and write them to your local filesystem
 
-  === Master language
-  French
+```
+USAGE
+  $ accent sync [FILENAME]
 
-  === Translations (1)
-  English
+OPTIONS
+  --write  Write the file from the export _after_ the operation
 
-  === Documents
-  Format: JSON
-  Path: public
-
-  === Strings
-  # Strings: 6
-  ✓ Reviewed: 0
-  × In review: 6
+EXAMPLES
+  $ accent sync
+  $ accent sync Localization-admin
 ```
 <!-- commandsstop -->
 
