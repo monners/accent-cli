@@ -9,10 +9,10 @@ import Formatter from '../services/formatters/project-sync'
 import Document from '../services/document'
 import CommitOperationFormatter from '../services/formatters/commit-operation'
 import DocumentExportFormatter from '../services/formatters/document-export'
+import HookRunner from '../services/hook-runner'
 
 // Types
-import {DocumentConfig} from '../types/document-config'
-import {Project} from '../types/project'
+import {Hooks} from '../types/document-config'
 
 export default class Sync extends Command {
   public static description = 'Sync files in Accent and write them to your local filesystem'
@@ -27,30 +27,38 @@ export default class Sync extends Command {
 
     // Fetch config to sync, defaults to all config entries in sync config.
     const documents = this.projectConfig.sync(args.filename)
+    const documentConfigs = documents.map(
+      (document: Document) => document.config
+    )
 
     // From all the documentConfigs, do the sync or peek operations and log the results.
-    this.logProjectOperation(
-      this.project!,
-      documents.map((document: Document) => document.config)
-    )
+    new Formatter(this.project!).log(documentConfigs)
+
     for (const document of documents) {
+      await new HookRunner(document).run(Hooks.beforeSync)
+
       await Promise.all(this.processDocumentConfig(document))
+
+      await new HookRunner(document).run(Hooks.afterSync)
     }
 
     if (!flags.write) return
     const formatter = new DocumentExportFormatter()
 
     // From all the documentConfigs, do the export, write to local file and log the results.
-    this.logProjectExport(
-      documents.map((document: Document) => document.config)
-    )
+    new ExportFormatter().log(documentConfigs)
+
     for (const document of documents) {
+      await new HookRunner(document).run(Hooks.beforeExport)
+
       await Promise.all(
         document.paths.map(path => {
           formatter.log(path)
           return document.export(path)
         })
       )
+
+      await new HookRunner(document).run(Hooks.afterExport)
     }
   }
 
@@ -66,18 +74,5 @@ export default class Sync extends Command {
 
       return operations
     })
-  }
-
-  private logProjectOperation(
-    project: Project,
-    documentConfigs: DocumentConfig[]
-  ) {
-    const formatter = new Formatter(project)
-    formatter.log(documentConfigs)
-  }
-
-  private logProjectExport(documentConfigs: DocumentConfig[]) {
-    const formatter = new ExportFormatter()
-    formatter.log(documentConfigs)
   }
 }
