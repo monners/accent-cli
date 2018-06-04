@@ -2,6 +2,7 @@ Accent CLI
 ======
 
 [![Version](https://img.shields.io/npm/v/accent-cli.svg)](https://npmjs.org/package/accent-cli)
+[![Build Status](https://img.shields.io/travis/v/accent-cli.svg?branch=master)](https://travis-ci.com/mirego/accent-cli)
 
 <!-- toc -->
 * [Usage](#usage)
