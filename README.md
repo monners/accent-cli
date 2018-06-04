@@ -15,14 +15,18 @@ Accent CLI
 <!-- usage -->
 ```sh-session
 $ npm install -g accent-cli
++ accent-cli@0.4.0
+
 $ accent COMMAND
-running command...
+…
+
 $ accent (-v|--version|version)
 accent-cli/0.3.0 darwin-x64 node-v8.5.0
+
 $ accent --help [COMMAND]
 USAGE
   $ accent COMMAND
-...
+  …
 ```
 <!-- usagestop -->
 
