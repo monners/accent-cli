@@ -1,9 +1,8 @@
 // Types
-import {ApiConfig} from './api-config'
 import {DocumentConfig} from './document-config'
 
 export interface Config {
-  api: ApiConfig
-  sync: DocumentConfig[]
-  addTranslations: DocumentConfig[]
+  apiUrl: string
+  apiKey: string
+  files: DocumentConfig[]
 }

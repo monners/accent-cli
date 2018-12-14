@@ -1,6 +1,7 @@
 export interface Language {
   id: string
   name: string
+  slug: string
 }
 
 export interface Revision {

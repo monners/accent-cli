@@ -13,13 +13,13 @@ export default class ProjectSyncFormatter {
   }
 
   public log(documentConfigs: DocumentConfig[]) {
-    console.log(chalk.bold('=== Sync'), chalk.bold.white(this.project.name))
+    console.log(chalk.bold('––– Sync:'), chalk.bold.white(this.project.name))
 
     console.log('')
 
-    console.log(chalk.magenta(`Syncing paths (${documentConfigs.length})`))
+    console.log(chalk.magenta('Syncing sources'))
     documentConfigs.forEach((documentConfig: DocumentConfig) => {
-      console.log('→', chalk.white.bold(documentConfig.path))
+      console.log('→ ', chalk.white.bold(documentConfig.source))
     })
 
     console.log('')

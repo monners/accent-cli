@@ -14,18 +14,15 @@ export default class ProjectAddTranslationsFormatter {
 
   public log(documentConfigs: DocumentConfig[]) {
     console.log(
-      chalk.bold('=== Add translations'),
+      chalk.bold('––– Add translations:'),
       chalk.bold.white(this.project.name)
     )
 
     console.log('')
 
     console.log(
-      chalk.magenta(`Adding translations paths (${documentConfigs.length})`)
+      chalk.magenta('Adding translations paths')
     )
-    documentConfigs.forEach((documentConfig: DocumentConfig) => {
-      console.log('→', chalk.white.bold(documentConfig.path))
-    })
 
     console.log('')
   }

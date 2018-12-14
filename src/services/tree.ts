@@ -12,6 +12,6 @@ export default class Tree {
   }
 
   public list(): string[] {
-    return glob.sync(this.document.path, {})
+    return glob.sync(this.document.source, {})
   }
 }

@@ -2,18 +2,18 @@
 import fetch from 'node-fetch'
 
 // Types
-import {ApiConfig} from '../types/api-config'
+import {Config} from '../types/config'
 import {Project} from '../types/project'
 
 export default class ProjectFetcher {
-  public async fetch(api: ApiConfig): Promise<Project> {
-    const response = await this.graphql(api)
+  public async fetch(config: Config): Promise<Project> {
+    const response = await this.graphql(config)
     const data = await response.json()
 
     return data.data.viewer.project
   }
 
-  private graphql(api: ApiConfig) {
+  private graphql(config: Config) {
     const query = `query ProjectDetails($project_id: ID!) {
       viewer {
         project(id: $project_id) {
@@ -24,6 +24,7 @@ export default class ProjectFetcher {
           language {
             id
             name
+            slug
           }
           documents {
             entries {
@@ -40,17 +41,18 @@ export default class ProjectFetcher {
             language {
               id
               name
+              slug
             }
           }
         }
       }
     }`
 
-    return fetch(`${api.url}/graphql`, {
+    return fetch(`${config.apiUrl}/graphql`, {
       body: JSON.stringify({query}),
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${api.key}`
+        authorization: `Bearer ${config.apiKey}`
       },
       method: 'POST'
     })

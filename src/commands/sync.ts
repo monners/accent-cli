@@ -1,14 +1,20 @@
+
+// Vendor
+import {flags} from '@oclif/command'
+
 // Command
-import Command from '../base-commit'
+import Command from '../base'
 
 // Formatters
 import ExportFormatter from '../services/formatters/project-export'
-import Formatter from '../services/formatters/project-sync'
+import SyncFormatter from '../services/formatters/project-sync'
+import AddTranslationsFormatter from '../services/formatters/project-add-translations'
 
 // Services
 import Document from '../services/document'
 import CommitOperationFormatter from '../services/formatters/commit-operation'
 import DocumentExportFormatter from '../services/formatters/document-export'
+import DocumentPathsFetcher from '../services/document-paths-fetcher';
 import HookRunner from '../services/hook-runner'
 
 // Types
@@ -19,27 +25,42 @@ export default class Sync extends Command {
 
   public static examples = [`$ accent sync`, `$ accent sync Localization-admin`]
 
-  public static args = [...Command.args]
-  public static flags = {...Command.flags}
+  public static args = []
+
+  public static flags = {
+    "add-translations": flags.boolean({
+      description: 'Add translations in Accent to help translators if you already have translated strings'
+    }),
+    write: flags.boolean({
+      description: 'Write the file from the export _after_ the operation'
+    })
+  }
 
   public async run() {
-    const {args, flags} = this.parse(Sync)
+    const {flags} = this.parse(Sync)
 
-    // Fetch config to sync, defaults to all config entries in sync config.
-    const documents = this.projectConfig.sync(args.filename)
+    const documents = this.projectConfig.files()
     const documentConfigs = documents.map(
       (document: Document) => document.config
     )
 
     // From all the documentConfigs, do the sync or peek operations and log the results.
-    new Formatter(this.project!).log(documentConfigs)
+    new SyncFormatter(this.project!).log(documentConfigs)
 
     for (const document of documents) {
       await new HookRunner(document).run(Hooks.beforeSync)
 
-      await Promise.all(this.processDocumentConfig(document))
+      await Promise.all(this.syncDocumentConfig(document))
 
       await new HookRunner(document).run(Hooks.afterSync)
+    }
+
+    if (flags['add-translations']) {
+      new AddTranslationsFormatter(this.project!).log(documentConfigs)
+
+      for (const document of documents) {
+        await Promise.all(this.addTranslationsDocumentConfig(document))
+      }
     }
 
     if (!flags.write) return
@@ -51,10 +72,12 @@ export default class Sync extends Command {
     for (const document of documents) {
       await new HookRunner(document).run(Hooks.beforeExport)
 
+      const targets = new DocumentPathsFetcher().fetch(this.project!, document)
+
       await Promise.all(
-        document.paths.map(path => {
+        targets.map(({path, language}) => {
           formatter.log(path)
-          return document.export(path)
+          return document.export(path, language)
         })
       )
 
@@ -62,7 +85,7 @@ export default class Sync extends Command {
     }
   }
 
-  private processDocumentConfig(document: Document) {
+  private syncDocumentConfig(document: Document) {
     const {flags} = this.parse(Sync)
     const formatter = new CommitOperationFormatter()
 
@@ -70,6 +93,24 @@ export default class Sync extends Command {
       const operations = await document.sync(path, flags)
 
       if (operations.sync && !operations.peek) formatter.logSync(path)
+      if (operations.peek) formatter.logPeek(path, operations.peek)
+
+      return operations
+    })
+  }
+
+  private addTranslationsDocumentConfig(document: Document) {
+    const {flags} = this.parse(Sync)
+    const formatter = new CommitOperationFormatter()
+
+    const targets = new DocumentPathsFetcher()
+      .fetch(this.project!, document)
+      .filter(({language}) => language !== document.config.language)
+
+    return targets.map(async ({path, language}) => {
+      const operations = await document.addTranslations(path, language, flags)
+
+      if (operations.addTranslations && !operations.peek) formatter.logAddTranslations(path)
       if (operations.peek) formatter.logPeek(path, operations.peek)
 
       return operations

@@ -8,7 +8,7 @@ import * as path from 'path'
 import Tree from './tree'
 
 // Types
-import {ApiConfig} from '../types/api-config'
+import {Config} from '../types/config'
 import {DocumentConfig} from '../types/document-config'
 import {OperationResponse} from '../types/operation-response'
 
@@ -19,12 +19,16 @@ const enum OperationName {
 
 export default class Document {
   public readonly paths: string[]
+  public readonly apiKey: string
+  public readonly apiUrl: string
   public readonly config: DocumentConfig
-  private readonly api: ApiConfig
+  public readonly target: string
 
-  constructor(documentConfig: DocumentConfig, apiConfig: ApiConfig) {
+  constructor(documentConfig: DocumentConfig, config: Config) {
     this.config = documentConfig
-    this.api = apiConfig
+    this.apiKey = config.apiKey
+    this.apiUrl = config.apiUrl
+    this.target = this.config.target
     this.paths = new Tree(this.config).list()
   }
 
@@ -35,7 +39,7 @@ export default class Document {
     formData.append('document_format', this.config.format)
     formData.append('language', this.config.language)
 
-    let url = `${this.api.url}/sync`
+    let url = `${this.apiUrl}/sync`
     if (!options.write) url = `${url}/peek`
 
     const response = await fetch(url, {
@@ -47,15 +51,14 @@ export default class Document {
     return this.handleResponse(response, options, OperationName.Sync)
   }
 
-  public async addTranslations(file: string, options: any) {
+  public async addTranslations(file: string, language: string, options: any) {
     const formData = new FormData()
     formData.append('file', fs.createReadStream(file))
     formData.append('document_path', this.parseDocumentName(file))
     formData.append('document_format', this.config.format)
-    formData.append('language', this.config.language)
-    formData.append('merge_type', options.mergeType)
+    formData.append('language', language)
 
-    let url = `${this.api.url}/add-translations`
+    let url = `${this.apiUrl}/add-translations`
     if (!options.write) url = `${url}/peek`
 
     const response = await fetch(url, {
@@ -67,16 +70,18 @@ export default class Document {
     return this.handleResponse(response, options, OperationName.AddTranslation)
   }
 
-  public async export(file: string) {
+  public async export(file: string, language?: string) {
+    language = language || this.config.language;
+
     const query = [
       ['document_path', this.parseDocumentName(file)],
       ['document_format', this.config.format],
-      ['language', this.config.language]
+      ['language', language]
     ]
       .map(([name, value]) => `${name}=${value}`)
       .join('&')
 
-    const url = `${this.api.url}/export?${query}`
+    const url = `${this.apiUrl}/export?${query}`
     const response = await fetch(url, {
       headers: this.authorizationHeader()
     })
@@ -85,7 +90,7 @@ export default class Document {
   }
 
   private authorizationHeader() {
-    return {authorization: `Bearer ${this.api.key}`}
+    return {authorization: `Bearer ${this.apiKey}`}
   }
 
   private parseDocumentName(file: string): string {

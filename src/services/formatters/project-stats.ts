@@ -25,42 +25,42 @@ export default class ProjectStatsFormatter {
       0
     )
 
-    console.log(chalk.bold('=== Stats'), chalk.bold.white(this.project.name))
+    console.log(chalk.bold('––– Stats:'), chalk.bold.white(this.project.name))
 
     console.log('')
 
-    console.log(chalk.bold('=== Last synced'))
-    console.log(chalk.white.bold(this.project.lastSyncedAt))
+    console.log(chalk.magenta('Last synced'))
+    console.log('  ', chalk.white.bold(this.project.lastSyncedAt))
 
     console.log('')
 
-    console.log(chalk.bold('=== Master language'))
-    console.log(chalk.white.bold(this.project.language.name))
+    console.log(chalk.magenta('Master language'))
+    console.log('  ', chalk.white.bold(this.project.language.name) + ' – ' + this.project.language.slug)
 
     console.log('')
 
     if (this.project.revisions.length > 1) {
       console.log(
-        chalk.bold(`=== Translations (${this.project.revisions.length - 1})`)
+        chalk.magenta(`Translations (${this.project.revisions.length - 1})`)
       )
       this.project.revisions.forEach((revision: Revision) => {
         if (this.project.language.id !== revision.language.id) {
-          console.log(chalk.white.bold(revision.language.name))
+          console.log('  ', chalk.white.bold(revision.language.name) + ' – ' + revision.language.slug)
           console.log('')
         }
       })
     }
 
-    console.log(chalk.bold('=== Documents'))
+    console.log(chalk.magenta('Documents'))
     this.project.documents.entries.forEach((document: Document) => {
-      console.log(chalk.gray('Format:'), chalk.white.bold(document.format))
-      console.log(chalk.gray('Path:'), chalk.white.bold(document.path))
+      console.log('  ', chalk.gray('Format:'), chalk.white.bold(document.format))
+      console.log('  ', chalk.gray('Path:'), chalk.white.bold(document.path))
       console.log('')
     })
 
-    console.log(chalk.bold('=== Strings'))
-    console.log(chalk.white('# Strings:'), chalk.white(`${translationsCount}`))
-    console.log(chalk.green('✓ Reviewed:'), chalk.green(`${reviewedCount}`))
-    console.log(chalk.red('× In review:'), chalk.red(`${conflictsCount}`))
+    console.log(chalk.magenta('Strings'))
+    console.log('  ', chalk.white('# Strings:'), chalk.white(`${translationsCount}`))
+    console.log('  ', chalk.green('✓ Reviewed:'), chalk.green(`${reviewedCount}`))
+    console.log('  ', chalk.red('× In review:'), chalk.red(`${conflictsCount}`))
   }
 }

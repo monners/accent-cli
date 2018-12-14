@@ -6,9 +6,9 @@ import {DocumentConfig} from '../../types/document-config'
 
 export default class ProjectExportFormatter {
   public log(documentConfigs: DocumentConfig[]) {
-    console.log(chalk.magenta(`Writing paths (${documentConfigs.length})`))
+    console.log(chalk.magenta('Writing files'))
     documentConfigs.forEach((documentConfig: DocumentConfig) => {
-      console.log('→', chalk.white.bold(documentConfig.path))
+      console.log('→', chalk.white.bold(documentConfig.source))
     })
 
     console.log('')

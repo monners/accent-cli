@@ -6,10 +6,10 @@ import cli from 'cli-ux'
 
 // Services
 import ConfigFetcher from './services/config'
-import ProjectFetcher from './services/project'
+import ProjectFetcher from './services/project-fetcher'
 
 // Types
-import {ApiConfig} from './types/api-config'
+import {Config} from './types/config'
 import {Project} from './types/project'
 
 const sleep = (ms: number) =>
@@ -17,18 +17,18 @@ const sleep = (ms: number) =>
 
 export default abstract class extends Command {
   public projectConfig: ConfigFetcher = new ConfigFetcher()
-  public apiConfig: ApiConfig = this.projectConfig.api()
   public project?: Project
 
   public async init() {
-    if (!this.apiConfig.url) error('You must set an API url in your config')
-    if (!this.apiConfig.key) error('You must set an API key in your config')
+    const config = this.projectConfig.config
+    if (!config.apiUrl) error('You must set an API url in your config')
+    if (!config.apiKey) error('You must set an API key in your config')
 
     // Fetch project from the GraphQL API.
     cli.action.start(chalk.white('Fetch config'))
     await sleep(1000)
     const fetcher = new ProjectFetcher()
-    this.project = await fetcher.fetch(this.apiConfig)
+    this.project = await fetcher.fetch(config)
     cli.action.stop(chalk.green('✓'))
   }
 }
