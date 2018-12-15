@@ -35,7 +35,12 @@ export default class ProjectStatsFormatter {
     console.log('')
 
     console.log(chalk.magenta('Master language'))
-    console.log('  ', chalk.white.bold(this.project.language.name) + ' – ' + this.project.language.slug)
+    console.log(
+      '  ',
+      chalk.white.bold(this.project.language.name) +
+        ' – ' +
+        this.project.language.slug
+    )
 
     console.log('')
 
@@ -45,7 +50,12 @@ export default class ProjectStatsFormatter {
       )
       this.project.revisions.forEach((revision: Revision) => {
         if (this.project.language.id !== revision.language.id) {
-          console.log('  ', chalk.white.bold(revision.language.name) + ' – ' + revision.language.slug)
+          console.log(
+            '  ',
+            chalk.white.bold(revision.language.name) +
+              ' – ' +
+              revision.language.slug
+          )
           console.log('')
         }
       })
@@ -53,14 +63,26 @@ export default class ProjectStatsFormatter {
 
     console.log(chalk.magenta('Documents'))
     this.project.documents.entries.forEach((document: Document) => {
-      console.log('  ', chalk.gray('Format:'), chalk.white.bold(document.format))
+      console.log(
+        '  ',
+        chalk.gray('Format:'),
+        chalk.white.bold(document.format)
+      )
       console.log('  ', chalk.gray('Path:'), chalk.white.bold(document.path))
       console.log('')
     })
 
     console.log(chalk.magenta('Strings'))
-    console.log('  ', chalk.white('# Strings:'), chalk.white(`${translationsCount}`))
-    console.log('  ', chalk.green('✓ Reviewed:'), chalk.green(`${reviewedCount}`))
+    console.log(
+      '  ',
+      chalk.white('# Strings:'),
+      chalk.white(`${translationsCount}`)
+    )
+    console.log(
+      '  ',
+      chalk.green('✓ Reviewed:'),
+      chalk.green(`${reviewedCount}`)
+    )
     console.log('  ', chalk.red('× In review:'), chalk.red(`${conflictsCount}`))
   }
 }

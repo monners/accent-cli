@@ -7,15 +7,16 @@ import ExportFormatter from '../services/formatters/project-export'
 // Services
 import Document from '../services/document'
 import DocumentExportFormatter from '../services/formatters/document-export'
-import DocumentPathsFetcher from '../services/document-paths-fetcher';
+import DocumentPathsFetcher from '../services/document-paths-fetcher'
 import HookRunner from '../services/hook-runner'
 
 // Types
 import {Hooks} from '../types/document-config'
-import {Project} from '../types/project';
+import {Project} from '../types/project'
 
 export default class Export extends Command {
-  public static description = 'Export files from Accent and write them to your local filesystem'
+  public static description =
+    'Export files from Accent and write them to your local filesystem'
 
   public static examples = [`$ accent export`]
 

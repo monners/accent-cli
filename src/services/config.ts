@@ -20,9 +20,7 @@ export default class ConfigFetcher {
     return this.operationConfig(this.config.files)
   }
 
-  private operationConfig(
-    documentConfigs: DocumentConfig[]
-  ) {
+  private operationConfig(documentConfigs: DocumentConfig[]) {
     if (!documentConfigs.length) {
       error('You must have at least 1 document set in your config')
     }

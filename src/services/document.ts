@@ -61,7 +61,8 @@ export default class Document {
 
     let url = `${this.apiUrl}/add-translations`
     if (!options.write) url = `${url}/peek`
-    if (options['merge-type']) formData.append('merge_type', options['merge-type'])
+    if (options['merge-type'])
+      formData.append('merge_type', options['merge-type'])
 
     const response = await fetch(url, {
       body: formData,
@@ -73,7 +74,7 @@ export default class Document {
   }
 
   public async export(file: string, language?: string) {
-    language = language || this.config.language;
+    language = language || this.config.language
 
     const query = [
       ['document_path', this.parseDocumentName(file)],

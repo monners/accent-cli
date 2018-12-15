@@ -20,9 +20,7 @@ export default class ProjectAddTranslationsFormatter {
 
     console.log('')
 
-    console.log(
-      chalk.magenta('Adding translations paths')
-    )
+    console.log(chalk.magenta('Adding translations paths'))
 
     console.log('')
   }

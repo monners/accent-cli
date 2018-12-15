@@ -26,7 +26,12 @@ export default class CommitOperationFormatter {
 
     Object.entries(operations.stats).map(stat => {
       Object.entries(stat[1]).map(([action, name]) => {
-        console.log('  ', chalk.bold(this.formatAction(action)), ':', chalk.bold.white(name))
+        console.log(
+          '  ',
+          chalk.bold(this.formatAction(action)),
+          ':',
+          chalk.bold.white(name)
+        )
       })
     })
 
@@ -34,7 +39,7 @@ export default class CommitOperationFormatter {
   }
 
   private formatAction(string: string) {
-    const capitalized = string.charAt(0).toUpperCase() + string.slice(1);
-    return capitalized.replace(/_/g, " ")
+    const capitalized = string.charAt(0).toUpperCase() + string.slice(1)
+    return capitalized.replace(/_/g, ' ')
   }
 }
