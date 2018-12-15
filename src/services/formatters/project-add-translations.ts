@@ -2,7 +2,6 @@
 import chalk from 'chalk'
 
 // Types
-import {DocumentConfig} from '../../types/document-config'
 import {Project} from '../../types/project'
 
 export default class ProjectAddTranslationsFormatter {
@@ -12,7 +11,7 @@ export default class ProjectAddTranslationsFormatter {
     this.project = project
   }
 
-  public log(documentConfigs: DocumentConfig[]) {
+  public log() {
     console.log(
       chalk.bold('––– Add translations:'),
       chalk.bold.white(this.project.name)

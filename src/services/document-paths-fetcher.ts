@@ -1,10 +1,9 @@
 // Vendor
-import fetch from 'node-fetch'
 
 // Types
+import {DocumentPath} from '../types/document-path'
 import {Project} from '../types/project'
 import Document from './document'
-import {DocumentPath} from '../types/document-path'
 
 export default class DocumentPathsFetcher {
   public fetch(project: Project, document: Document): DocumentPath[] {

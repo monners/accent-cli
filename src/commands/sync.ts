@@ -5,15 +5,15 @@ import {flags} from '@oclif/command'
 import Command from '../base'
 
 // Formatters
+import AddTranslationsFormatter from '../services/formatters/project-add-translations'
 import ExportFormatter from '../services/formatters/project-export'
 import SyncFormatter from '../services/formatters/project-sync'
-import AddTranslationsFormatter from '../services/formatters/project-add-translations'
 
 // Services
 import Document from '../services/document'
+import DocumentPathsFetcher from '../services/document-paths-fetcher'
 import CommitOperationFormatter from '../services/formatters/commit-operation'
 import DocumentExportFormatter from '../services/formatters/document-export'
-import DocumentPathsFetcher from '../services/document-paths-fetcher'
 import HookRunner from '../services/hook-runner'
 
 // Types
@@ -33,15 +33,15 @@ export default class Sync extends Command {
         'Add translations in Accent to help translators if you already have translated strings'
     }),
     'merge-type': flags.string({
+      default: 'smart',
       description:
         'Will be used in the add translations call as the "merge_type" param',
-      options: ['smart', 'passive', 'force'],
-      default: 'smart'
+      options: ['smart', 'passive', 'force']
     }),
     'sync-type': flags.string({
+      default: 'smart',
       description: 'Will be used in the sync call as the "sync_type" param',
-      options: ['smart', 'passive'],
-      default: 'smart'
+      options: ['smart', 'passive']
     }),
     write: flags.boolean({
       description: 'Write the file from the export _after_ the operation'
@@ -68,7 +68,7 @@ export default class Sync extends Command {
     }
 
     if (flags['add-translations']) {
-      new AddTranslationsFormatter(this.project!).log(documentConfigs)
+      new AddTranslationsFormatter(this.project!).log()
 
       for (const document of documents) {
         await Promise.all(this.addTranslationsDocumentConfig(document))
@@ -122,8 +122,9 @@ export default class Sync extends Command {
     return targets.map(async ({path, language}) => {
       const operations = await document.addTranslations(path, language, flags)
 
-      if (operations.addTranslations && !operations.peek)
+      if (operations.addTranslations && !operations.peek) {
         formatter.logAddTranslations(path)
+      }
       if (operations.peek) formatter.logPeek(path, operations.peek)
 
       return operations

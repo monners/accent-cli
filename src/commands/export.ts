@@ -6,13 +6,12 @@ import ExportFormatter from '../services/formatters/project-export'
 
 // Services
 import Document from '../services/document'
-import DocumentExportFormatter from '../services/formatters/document-export'
 import DocumentPathsFetcher from '../services/document-paths-fetcher'
+import DocumentExportFormatter from '../services/formatters/document-export'
 import HookRunner from '../services/hook-runner'
 
 // Types
 import {Hooks} from '../types/document-config'
-import {Project} from '../types/project'
 
 export default class Export extends Command {
   public static description =
@@ -24,8 +23,6 @@ export default class Export extends Command {
   public static flags = {}
 
   public async run() {
-    const {args} = this.parse(Export)
-
     const documents = this.projectConfig.files()
     const documentConfigs = documents.map(
       (document: Document) => document.config

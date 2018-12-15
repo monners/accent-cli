@@ -9,7 +9,6 @@ import ConfigFetcher from './services/config'
 import ProjectFetcher from './services/project-fetcher'
 
 // Types
-import {Config} from './types/config'
 import {Project} from './types/project'
 
 const sleep = (ms: number) =>

@@ -1,4 +1,5 @@
 // Vendor
+import {error} from '@oclif/errors'
 import fetch from 'node-fetch'
 
 // Types
@@ -10,7 +11,11 @@ export default class ProjectFetcher {
     const response = await this.graphql(config)
     const data = await response.json()
 
-    return data.data.viewer.project
+    if (!data.data) {
+      error(`Can not find the project for the key: ${config.apiKey}`)
+    }
+
+    return data.data && data.data.viewer.project
   }
 
   private graphql(config: Config) {

@@ -38,8 +38,8 @@ export default class CommitOperationFormatter {
     console.log('')
   }
 
-  private formatAction(string: string) {
-    const capitalized = string.charAt(0).toUpperCase() + string.slice(1)
+  private formatAction(action: string) {
+    const capitalized = action.charAt(0).toUpperCase() + action.slice(1)
     return capitalized.replace(/_/g, ' ')
   }
 }

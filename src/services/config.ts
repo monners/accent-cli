@@ -14,6 +14,17 @@ export default class ConfigFetcher {
 
   constructor() {
     this.config = fs.readJsonSync('accent.json')
+    this.config.apiKey = this.config.apiKey || process.env.ACCENT_API_KEY!
+    this.config.apiUrl = this.config.apiUrl || process.env.ACCENT_API_URL!
+
+    if (!this.config.apiKey)
+      error(
+        'You must have an apiKey key in the config or the ACCENT_API_KEY environment variable'
+      )
+    if (!this.config.apiUrl)
+      error(
+        'You must have an apiUrl key in the config or the ACCENT_API_URL environment variable'
+      )
   }
 
   public files(): Document[] {
