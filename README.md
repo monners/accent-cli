@@ -39,27 +39,16 @@ accent-cli reads from a `accent.json` file. The file should contain valid JSON r
 
 ```
 {
-  "api": {
-    "url": "http://your.accent.instance",
-    "key": "2nziVSaa8yUJxLkwoZA"
-  },
-  "sync": [
+  "apiUrl": "http://your.accent.instance",
+  "apiKey": "2nziVSaa8yUJxLkwoZA",
+  "files": [
     {
       "language": "fr",
       "format": "json",
-      "path": "localization/fr/*.json",
+      "source": "localization/fr/*.json",
+      "target": "localization/%slug%/%original_filename%.json",
       "hooks": {
         "afterSync": "touch sync-done.txt"
-      }
-    }
-  ],
-  "addTranslations": [
-    {
-      "language": "en",
-      "format": "json",
-      "path": "localization/en/*.json",
-      "hooks": {
-        "afterSync": "touch add-translations-done.txt"
       }
     }
   ]
@@ -72,7 +61,8 @@ Each operation section `sync` and `addTranslations` can contain the following ob
 
 - `language`: The identifier of the document’s language
 - `format`: The format of the document
-- `path`: The path of the document. This can contain glob pattern (See [the node glob library] used as a dependancy (https://github.com/isaacs/node-glob))
+- `source`: The path of the document. This can contain glob pattern (See [the node glob library] used as a dependancy (https://github.com/isaacs/node-glob))
+- `target`: Path of the target languages
 - `hooks`: List of hooks to be run
 
 ## Hooks
@@ -81,34 +71,14 @@ Here is a list of available hooks. Those are self-explanatory
 
 - `beforeSync`
 - `afterSync`
-- `beforeAddTranslations`
-- `afterAddTranslations`
 - `beforeExport`
 - `afterExport`
 
 # Commands
 <!-- commands -->
-* [accent add-translations [FILENAME]](#accent-add-translations-filename)
 * [accent help [COMMAND]](#accent-help-command)
 * [accent stats](#accent-stats)
 * [accent sync [FILENAME]](#accent-sync-filename)
-
-## accent add-translations [FILENAME]
-
-Add translations in Accent and write them to your local filesystem
-
-```
-USAGE
-  $ accent add-translations [FILENAME]
-
-OPTIONS
-  --mergeType=smart|force|passive  [default: passive]
-  --write                          Write the file from the export _after_ the operation
-
-EXAMPLES
-  $ accent add-translations
-  $ accent add-translations Localization-admin
-```
 
 ## accent help [COMMAND]
 
@@ -139,20 +109,19 @@ EXAMPLE
   $ accent stats
 ```
 
-## accent sync [FILENAME]
+## accent sync
 
 Sync files in Accent and write them to your local filesystem
 
 ```
 USAGE
-  $ accent sync [FILENAME]
+  $ accent sync
 
 OPTIONS
   --write  Write the file from the export _after_ the operation
 
 EXAMPLES
   $ accent sync
-  $ accent sync Localization-admin
 ```
 <!-- commandsstop -->
 

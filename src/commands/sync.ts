@@ -31,6 +31,16 @@ export default class Sync extends Command {
     "add-translations": flags.boolean({
       description: 'Add translations in Accent to help translators if you already have translated strings'
     }),
+    "merge-type": flags.string({
+      description: 'Will be used in the add translations call as the "merge_type" param',
+      options: ['smart', 'passive', 'force'],
+      default: 'smart'
+    }),
+    "sync-type": flags.string({
+      description: 'Will be used in the sync call as the "sync_type" param',
+      options: ['smart', 'passive'],
+      default: 'smart'
+    }),
     write: flags.boolean({
       description: 'Write the file from the export _after_ the operation'
     })

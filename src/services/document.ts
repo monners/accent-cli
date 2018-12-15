@@ -41,6 +41,7 @@ export default class Document {
 
     let url = `${this.apiUrl}/sync`
     if (!options.write) url = `${url}/peek`
+    if (options['sync-type']) formData.append('sync_type', options['sync-type'])
 
     const response = await fetch(url, {
       body: formData,
@@ -60,6 +61,7 @@ export default class Document {
 
     let url = `${this.apiUrl}/add-translations`
     if (!options.write) url = `${url}/peek`
+    if (options['merge-type']) formData.append('merge_type', options['merge-type'])
 
     const response = await fetch(url, {
       body: formData,
