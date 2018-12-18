@@ -18,7 +18,7 @@ const enum OperationName {
 }
 
 export default class Document {
-  public readonly paths: string[]
+  public paths: string[]
   public readonly apiKey: string
   public readonly apiUrl: string
   public readonly config: DocumentConfig
@@ -29,6 +29,10 @@ export default class Document {
     this.apiKey = config.apiKey
     this.apiUrl = config.apiUrl
     this.target = this.config.target
+    this.paths = new Tree(this.config).list()
+  }
+
+  public refreshPaths() {
     this.paths = new Tree(this.config).list()
   }
 
@@ -52,10 +56,11 @@ export default class Document {
     return this.handleResponse(response, options, OperationName.Sync)
   }
 
-  public async addTranslations(file: string, language: string, options: any) {
+  public async addTranslations(file: string, language: string, documentPath: string, options: any) {
     const formData = new FormData()
+
     formData.append('file', fs.createReadStream(file))
-    formData.append('document_path', this.parseDocumentName(file))
+    formData.append('document_path', documentPath)
     formData.append('document_format', this.config.format)
     formData.append('language', language)
 
@@ -74,12 +79,13 @@ export default class Document {
     return this.handleResponse(response, options, OperationName.AddTranslation)
   }
 
-  public async export(file: string, language?: string) {
+  public async export(file: string, language: string, documentPath: string, options: any) {
     language = language || this.config.language
 
     const query = [
-      ['document_path', this.parseDocumentName(file)],
+      ['document_path', documentPath],
       ['document_format', this.config.format],
+      ['order_by', options['order-by']],
       ['language', language]
     ]
       .map(([name, value]) => `${name}=${value}`)

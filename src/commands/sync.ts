@@ -1,5 +1,6 @@
 // Vendor
 import {flags} from '@oclif/command'
+import {existsSync} from 'fs';
 
 // Command
 import Command from '../base'
@@ -23,7 +24,7 @@ export default class Sync extends Command {
   public static description =
     'Sync files in Accent and write them to your local filesystem'
 
-  public static examples = [`$ accent sync`, `$ accent sync Localization-admin`]
+  public static examples = [`$ accent sync`]
 
   public static args = []
 
@@ -45,19 +46,21 @@ export default class Sync extends Command {
     }),
     write: flags.boolean({
       description: 'Write the file from the export _after_ the operation'
-    })
+    }),
+    'order-by': flags.string({
+      default: 'index',
+      description: 'Will be used in the export call as the order of the keys',
+      options: ['index', 'key-asc']
+    }),
   }
 
   public async run() {
     const {flags} = this.parse(Sync)
 
     const documents = this.projectConfig.files()
-    const documentConfigs = documents.map(
-      (document: Document) => document.config
-    )
 
     // From all the documentConfigs, do the sync or peek operations and log the results.
-    new SyncFormatter(this.project!).log(documentConfigs)
+    new SyncFormatter().log()
 
     for (const document of documents) {
       await new HookRunner(document).run(Hooks.beforeSync)
@@ -68,10 +71,14 @@ export default class Sync extends Command {
     }
 
     if (flags['add-translations']) {
-      new AddTranslationsFormatter(this.project!).log()
+      new AddTranslationsFormatter().log()
 
       for (const document of documents) {
+        await new HookRunner(document).run(Hooks.beforeAddTranslations)
+
         await Promise.all(this.addTranslationsDocumentConfig(document))
+
+        await new HookRunner(document).run(Hooks.afterAddTranslations)
       }
     }
 
@@ -79,7 +86,7 @@ export default class Sync extends Command {
     const formatter = new DocumentExportFormatter()
 
     // From all the documentConfigs, do the export, write to local file and log the results.
-    new ExportFormatter().log(documentConfigs)
+    new ExportFormatter().log()
 
     for (const document of documents) {
       await new HookRunner(document).run(Hooks.beforeExport)
@@ -87,9 +94,9 @@ export default class Sync extends Command {
       const targets = new DocumentPathsFetcher().fetch(this.project!, document)
 
       await Promise.all(
-        targets.map(({path, language}) => {
+        targets.map(({path, language, documentPath}) => {
           formatter.log(path)
-          return document.export(path, language)
+          return document.export(path, language, documentPath, flags)
         })
       )
 
@@ -118,9 +125,10 @@ export default class Sync extends Command {
     const targets = new DocumentPathsFetcher()
       .fetch(this.project!, document)
       .filter(({language}) => language !== document.config.language)
+      .filter(({path}) => existsSync(path))
 
-    return targets.map(async ({path, language}) => {
-      const operations = await document.addTranslations(path, language, flags)
+    return targets.map(async ({path, language, documentPath}) => {
+      const operations = await document.addTranslations(path, language, documentPath, flags)
 
       if (operations.addTranslations && !operations.peek) {
         formatter.logAddTranslations(path)

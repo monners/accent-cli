@@ -29,5 +29,6 @@ export default abstract class extends Command {
     const fetcher = new ProjectFetcher()
     this.project = await fetcher.fetch(config)
     cli.action.stop(chalk.green('✓'))
+    console.log('')
   }
 }

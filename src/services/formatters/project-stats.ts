@@ -25,10 +25,6 @@ export default class ProjectStatsFormatter {
       0
     )
 
-    console.log(chalk.bold('––– Stats:'), chalk.bold.white(this.project.name))
-
-    console.log('')
-
     console.log(chalk.magenta('Last synced'))
     console.log('  ', chalk.white.bold(this.project.lastSyncedAt))
 

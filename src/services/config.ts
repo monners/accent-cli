@@ -25,18 +25,14 @@ export default class ConfigFetcher {
       error(
         'You must have an apiUrl key in the config or the ACCENT_API_URL environment variable'
       )
+    if (!this.config.files)
+      error(
+        'You must have at least 1 document set in your config'
+      )
   }
 
   public files(): Document[] {
-    return this.operationConfig(this.config.files)
-  }
-
-  private operationConfig(documentConfigs: DocumentConfig[]) {
-    if (!documentConfigs.length) {
-      error('You must have at least 1 document set in your config')
-    }
-
-    return documentConfigs.map(
+    return this.config.files.map(
       documentConfig => new Document(documentConfig, this.config)
     )
   }

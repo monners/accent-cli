@@ -1,5 +1,3 @@
-// Vendor
-
 // Types
 import {DocumentPath} from '../types/document-path'
 import {Project} from '../types/project'
@@ -13,8 +11,9 @@ export default class DocumentPathsFetcher {
       documentPaths.forEach(path => {
         const parsedTarget = document.target
           .replace('%slug%', slug)
-          .replace('%original_filename%', path)
-        memo.push({path: parsedTarget, language: slug})
+          .replace('%original_file_name%', path)
+
+        memo.push({documentPath: path, path: parsedTarget, language: slug})
       })
 
       return memo

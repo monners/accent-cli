@@ -1,4 +1,5 @@
 export interface DocumentPath {
   path: string
-  language: string
+  language: string,
+  documentPath: string
 }

@@ -1,15 +1,19 @@
 export enum Hooks {
-  beforeSync = 'beforeSync',
-  afterSync = 'afterSync',
+  beforeAddTranslations = 'beforeAddTranslations',
+  afterAddTranslations = 'afterAddTranslations',
   beforeExport = 'beforeExport',
-  afterExport = 'afterExport'
+  afterExport = 'afterExport',
+  beforeSync = 'beforeSync',
+  afterSync = 'afterSync'
 }
 
 export interface HookConfig {
-  [Hooks.beforeSync]: string
-  [Hooks.afterSync]: string
-  [Hooks.beforeExport]: string
-  [Hooks.afterExport]: string
+  [Hooks.beforeAddTranslations]: string[]
+  [Hooks.afterAddTranslations]: string[]
+  [Hooks.beforeExport]: string[]
+  [Hooks.afterExport]: string[]
+  [Hooks.beforeSync]: string[]
+  [Hooks.afterSync]: string[]
 }
 
 export interface DocumentConfig {
