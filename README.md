@@ -16,18 +16,14 @@ Accent CLI
 <!-- usage -->
 ```sh-session
 $ npm install -g accent-cli
-+ accent-cli@0.4.0
-
 $ accent COMMAND
-…
-
+running command...
 $ accent (-v|--version|version)
-accent-cli/0.3.0 darwin-x64 node-v8.5.0
-
+accent-cli/0.3.0 darwin-x64 node-v9.5.0
 $ accent --help [COMMAND]
 USAGE
   $ accent COMMAND
-  …
+...
 ```
 <!-- usagestop -->
 
@@ -76,9 +72,25 @@ Here is a list of available hooks. Those are self-explanatory
 
 # Commands
 <!-- commands -->
+* [accent export](#accent-export)
 * [accent help [COMMAND]](#accent-help-command)
 * [accent stats](#accent-stats)
-* [accent sync [FILENAME]](#accent-sync-filename)
+* [accent sync](#accent-sync)
+
+## accent export
+
+Export files from Accent and write them to your local filesystem
+
+```
+USAGE
+  $ accent export
+
+OPTIONS
+  --order-by=index|key-asc  [default: index] Will be used in the export call as the order of the keys
+
+EXAMPLE
+  $ accent export
+```
 
 ## accent help [COMMAND]
 
@@ -95,7 +107,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.2.2/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.4/src/commands/help.ts)_
 
 ## accent stats
 
@@ -118,9 +130,18 @@ USAGE
   $ accent sync
 
 OPTIONS
-  --write  Write the file from the export _after_ the operation
+  --add-translations                Add translations in Accent to help translators if you already have translated
+                                    strings
 
-EXAMPLES
+  --merge-type=smart|passive|force  [default: smart] Will be used in the add translations call as the "merge_type" param
+
+  --order-by=index|key-asc          [default: index] Will be used in the export call as the order of the keys
+
+  --sync-type=smart|passive         [default: smart] Will be used in the sync call as the "sync_type" param
+
+  --write                           Write the file from the export _after_ the operation
+
+EXAMPLE
   $ accent sync
 ```
 <!-- commandsstop -->
