@@ -26,9 +26,7 @@ export default class ConfigFetcher {
         'You must have an apiUrl key in the config or the ACCENT_API_URL environment variable'
       )
     if (!this.config.files)
-      error(
-        'You must have at least 1 document set in your config'
-      )
+      error('You must have at least 1 document set in your config')
   }
 
   public files(): Document[] {

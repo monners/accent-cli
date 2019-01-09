@@ -25,7 +25,7 @@ export default class Export extends Command {
       default: 'index',
       description: 'Will be used in the export call as the order of the keys',
       options: ['index', 'key-asc']
-    }),
+    })
   }
 
   public async run() {

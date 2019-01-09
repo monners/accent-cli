@@ -56,7 +56,12 @@ export default class Document {
     return this.handleResponse(response, options, OperationName.Sync)
   }
 
-  public async addTranslations(file: string, language: string, documentPath: string, options: any) {
+  public async addTranslations(
+    file: string,
+    language: string,
+    documentPath: string,
+    options: any
+  ) {
     const formData = new FormData()
 
     formData.append('file', fs.createReadStream(file))
@@ -79,7 +84,12 @@ export default class Document {
     return this.handleResponse(response, options, OperationName.AddTranslation)
   }
 
-  public async export(file: string, language: string, documentPath: string, options: any) {
+  public async export(
+    file: string,
+    language: string,
+    documentPath: string,
+    options: any
+  ) {
     language = language || this.config.language
 
     const query = [

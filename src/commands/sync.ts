@@ -1,6 +1,6 @@
 // Vendor
 import {flags} from '@oclif/command'
-import {existsSync} from 'fs';
+import {existsSync} from 'fs'
 
 // Command
 import Command from '../base'
@@ -51,7 +51,7 @@ export default class Sync extends Command {
       default: 'index',
       description: 'Will be used in the export call as the order of the keys',
       options: ['index', 'key-asc']
-    }),
+    })
   }
 
   public async run() {
@@ -128,7 +128,12 @@ export default class Sync extends Command {
       .filter(({path}) => existsSync(path))
 
     return targets.map(async ({path, language, documentPath}) => {
-      const operations = await document.addTranslations(path, language, documentPath, flags)
+      const operations = await document.addTranslations(
+        path,
+        language,
+        documentPath,
+        flags
+      )
 
       if (operations.addTranslations && !operations.peek) {
         formatter.logAddTranslations(path)

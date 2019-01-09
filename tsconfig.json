@@ -9,10 +9,14 @@
     "rootDirs": [
       "./src"
     ],
+    "skipLibCheck": true,
     "strict": true,
     "target": "es2017"
   },
   "include": [
     "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules/**/*"
   ]
 }
