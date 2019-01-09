@@ -67,8 +67,7 @@
     "lint": "tslint --project tsconfig.json 'src/**/*.{ts,tsx}'",
     "fix": "tslint --project tsconfig.json --fix 'src/**/*.{ts,tsx}'",
     "prepublishOnly": "npm run build && oclif-dev readme && oclif-dev manifest",
-    "prettier": "prettier --single-quote --no-bracket-spacing --no-semi --write './src/**/*.{js,json,ts,tsx,gql}'",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\""
+    "prettier": "prettier --single-quote --no-bracket-spacing --no-semi --write './src/**/*.{js,json,ts,tsx,gql}'"
   },
   "types": "lib/index.d.ts"
 }

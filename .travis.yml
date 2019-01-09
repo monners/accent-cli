@@ -12,10 +12,9 @@ cache:
 
 install:
   - npm install -g npm@5.10
-  - npm install
+  - npm ci --no-audit --no-color
 
 script:
-  - npm run test
   - npm run lint
 
 notifications:
