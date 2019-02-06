@@ -11,10 +11,10 @@
       "allow-leading-underscore",
       "allow-pascal-case"
     ],
+    "prefer-const": true,
     "no-empty-interface": false,
     "interface-name": false,
     "no-shadowed-variable": false,
-    "no-unused-variable": [true, {"ignore-pattern": "^_"}],
     "curly": [true, "ignore-same-line"],
     "no-empty": false
   }

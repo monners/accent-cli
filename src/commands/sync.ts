@@ -39,6 +39,11 @@ export default class Sync extends Command {
         'Will be used in the add translations call as the "merge_type" param',
       options: ['smart', 'passive', 'force']
     }),
+    'order-by': flags.string({
+      default: 'index',
+      description: 'Will be used in the export call as the order of the keys',
+      options: ['index', 'key-asc']
+    }),
     'sync-type': flags.string({
       default: 'smart',
       description: 'Will be used in the sync call as the "sync_type" param',
@@ -46,11 +51,6 @@ export default class Sync extends Command {
     }),
     write: flags.boolean({
       description: 'Write the file from the export _after_ the operation'
-    }),
-    'order-by': flags.string({
-      default: 'index',
-      description: 'Will be used in the export call as the order of the keys',
-      options: ['index', 'key-asc']
     })
   }
 

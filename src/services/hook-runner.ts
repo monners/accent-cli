@@ -10,7 +10,7 @@ import Document from './document'
 
 export default class HookRunner {
   public readonly hooks?: HookConfig
-  private document: Document
+  private readonly document: Document
 
   constructor(document: Document) {
     this.document = document

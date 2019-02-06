@@ -4,6 +4,9 @@ import chalk from 'chalk'
 // Types
 import {PeekOperation} from '../../types/operation'
 
+// Constants
+const MASTER_ONLY_ACTIONS = ['new', 'renew', 'remove']
+
 export default class CommitOperationFormatter {
   public logSync(path: string) {
     console.log('  ', chalk.white(path))
@@ -24,8 +27,15 @@ export default class CommitOperationFormatter {
       console.log('  ', chalk.gray('~~ No changes for this file ~~'))
     }
 
-    Object.entries(operations.stats).map(stat => {
-      Object.entries(stat[1]).map(([action, name]) => {
+    Object.entries(operations.stats).map((stat, index) => {
+      let actions = Object.entries(stat[1])
+      if (index > 0) {
+        actions = actions.filter(
+          ([action]) => !MASTER_ONLY_ACTIONS.includes(action)
+        )
+      }
+
+      actions.map(([action, name]) => {
         console.log(
           '  ',
           chalk.bold(this.formatAction(action)),
