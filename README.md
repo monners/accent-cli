@@ -44,7 +44,7 @@ accent-cli reads from a `accent.json` file. The file should contain valid JSON r
       "source": "localization/fr/*.json",
       "target": "localization/%slug%/%original_file_name%.json",
       "hooks": {
-        "afterSync": "touch sync-done.txt"
+        "afterSync": ["touch sync-done.txt"]
       }
     }
   ]
